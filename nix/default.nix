@@ -1,8 +1,8 @@
 {
-  format ? false,
   lint ? false,
-  craneLibDefault,
+  crane,
   fenix,
+  pkgs,
   stdenv,
   lib,
 }:
@@ -16,21 +16,14 @@ let
     in
     fenix.packages.${system}.combine [
       fenix.packages.${system}.stable.minimalToolchain
-      fenix.packages.${system}.stable.rustfmt
       fenix.packages.${system}.stable.clippy
       fenix.packages.${system}.targets.${target}.stable.rust-std
     ];
 
-  craneLib = craneLibDefault.overrideToolchain (p: toolchain p);
-  metadata = craneLib.crateNameFromCargoToml { cargoToml = ./Cargo.toml; };
+  craneLib = (crane.mkLib pkgs).overrideToolchain (p: toolchain p);
+  metadata = craneLib.crateNameFromCargoToml { cargoToml = ../Cargo.toml; };
 
-  craneAction =
-    if format then
-      "cargoFmt"
-    else if lint then
-      "cargoClippy"
-    else
-      "buildPackage";
+  craneAction = if lint then "cargoClippy" else "buildPackage";
 
   crate = {
     meta = {
@@ -44,7 +37,7 @@ let
     pname = metadata.pname;
     version = metadata.version;
 
-    src = craneLib.cleanCargoSource ./.;
+    src = craneLib.cleanCargoSource ./..;
     strictDeps = true;
 
     CARGO_BUILD_TARGET = target;
