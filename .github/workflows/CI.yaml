@@ -83,3 +83,29 @@ jobs:
       - name: Push latest tag
         if: ${{ github.ref_type == 'tag' }}
         run: skopeo copy docker://$REGISTRY/$IMAGE_NAME:$TAG-${{ matrix.target.architecture }} docker://$REGISTRY/$IMAGE_NAME:latest-${{ matrix.target.architecture }}
+
+  Publish:
+    runs-on: ubuntu-24.04
+    if: github.ref_type == 'tag'
+    needs:
+      - Check
+      - Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Nix
+        uses: cachix/install-nix-action@v31
+      - name: Cache
+        uses: cachix/cachix-action@v17
+        with:
+          name: ${{ vars.CACHIX_NAME }}
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Test
+        run: nix develop --command cargo publish --dry-run
+      - name: Authenticate
+        uses: rust-lang/crates-io-auth-action@v1
+        id: auth
+      - name: Publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+        run: nix develop --command cargo publish
