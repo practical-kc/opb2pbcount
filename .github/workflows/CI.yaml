@@ -61,6 +61,8 @@ jobs:
       REGISTRY: ${{ vars.CONTAINER_REGISTRY }}
       IMAGE_NAME: ${{ vars.CONTAINER_IMAGE }}
       TAG: ${{ github.ref_name }}
+    permissions:
+      packages: write
     runs-on: ${{ matrix.target.runner }}
     steps:
       - name: Checkout
