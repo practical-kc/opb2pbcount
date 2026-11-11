@@ -29,7 +29,7 @@ let
     meta = {
       mainProgram = "opb2pbcount";
       description = "Converter for the OPB format to be used by pbcount";
-      homepage = "https://github.com/uulm-janbaudisch/opb2pbcount.git";
+      homepage = "https://github.com/practical-kc/opb2pbcount.git";
       license = lib.licenses.lgpl3Plus;
       platforms = lib.platforms.unix;
     };

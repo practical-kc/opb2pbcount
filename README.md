@@ -16,7 +16,7 @@ The following changes are made to the formula:
 ### [Nix][nix]
 
 ```
-nix build github:uulm-janbaudisch/opb2pbcount
+nix build github:practical-kc/opb2pbcount
 ```
 
 ### Cargo
