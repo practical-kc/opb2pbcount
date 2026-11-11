@@ -70,7 +70,7 @@
             config = {
               Entrypoint = [ "opb2pbcount" ];
               Labels = {
-                "org.opencontainers.image.source" = "https://github.com/uulm-janbaudisch/opb2pbcount";
+                "org.opencontainers.image.source" = "https://github.com/practical-kc/opb2pbcount";
                 "org.opencontainers.image.description" = "Converter for the OPB format to be used by pbcount";
                 "org.opencontainers.image.licenses" = "LGPL-3.0-or-later";
               };
