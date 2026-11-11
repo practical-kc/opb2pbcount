@@ -90,4 +90,11 @@
         }
       );
     };
+
+  nixConfig = {
+    extra-substituters = [ "https://practical-kc.cachix.org" ];
+    extra-trusted-public-keys = [
+      "practical-kc.cachix.org-1:r0VJPyDYXfnCN++jErOaBvTqkyLTxaW0AsfW+axbfek="
+    ];
+  };
 }
